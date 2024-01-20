@@ -1,19 +1,43 @@
 function sumSubarrayMins(arr: number[]): number {
   const MOD = 10 ** 9 + 7;
   const n = arr.length;
-  const stack: number[] = [];
+  const leftBoundaries: number[] = new Array(n);
+  const rightBoundaries: number[] = new Array(n);
+  const leftStack: number[] = [];
+  const rightStack: number[] = [];
   let result = 0;
 
-  for (let i = 0; i <= n; i++) {
+  // Initialize left boundaries
+  for (let i = 0; i < n; i++) {
     while (
-      stack.length > 0 &&
-      (i === n || arr[i] < arr[stack[stack.length - 1]])
+      leftStack.length > 0 &&
+      arr[i] <= arr[leftStack[leftStack.length - 1]]
     ) {
-      const top = stack.pop()!;
-      const left = stack.length > 0 ? stack[stack.length - 1] : -1;
-      result = (result + arr[top] * (i - top) * (top - left)) % MOD;
+      leftStack.pop();
     }
-    stack.push(i);
+    leftBoundaries[i] =
+      leftStack.length > 0 ? leftStack[leftStack.length - 1] : -1;
+    leftStack.push(i);
+  }
+
+  // Initialize right boundaries
+  for (let i = n - 1; i >= 0; i--) {
+    while (
+      rightStack.length > 0 &&
+      arr[i] < arr[rightStack[rightStack.length - 1]]
+    ) {
+      rightStack.pop();
+    }
+    rightBoundaries[i] =
+      rightStack.length > 0 ? rightStack[rightStack.length - 1] : n;
+    rightStack.push(i);
+  }
+
+  // Calculate the sum of minimums
+  for (let i = 0; i < n; i++) {
+    result =
+      (result + arr[i] * (i - leftBoundaries[i]) * (rightBoundaries[i] - i)) %
+      MOD;
   }
 
   return result;

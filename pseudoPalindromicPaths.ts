@@ -1,13 +1,4 @@
-class TreeNode {
-  val: number;
-  left: TreeNode | null;
-  right: TreeNode | null;
-  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-    this.val = val === undefined ? 0 : val;
-    this.left = left === undefined ? null : left;
-    this.right = right === undefined ? null : right;
-  }
-}
+import { TreeNode } from "./treeNode";
 
 function pseudoPalindromicPaths(root: TreeNode | null): number {
   let count = 0;
@@ -57,7 +48,7 @@ const root1 = new TreeNode(
   new TreeNode(3, new TreeNode(3), new TreeNode(1)),
   new TreeNode(1, null, new TreeNode(1))
 );
-console.log(pseudoPalindromicPaths(root1)); // Output: 2
+// console.log(pseudoPalindromicPaths(root1)); // Output: 2
 
 // const root2 = new TreeNode(
 //   2,
